@@ -1,8 +1,8 @@
 -- premake5.lua
-workspace "WalnutApp"
+workspace "FastFileExplorer"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
-   startproject "WalnutApp"
+   startproject "FastFileExplorer"
 
    -- Workspace-wide build options for MSVC
    filter "system:windows"
