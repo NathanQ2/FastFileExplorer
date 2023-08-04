@@ -23,6 +23,8 @@ namespace FastFileExplorer
 		bool OpenFileInDefaultApp(const std::string& filePath);
 		Folder GetCurrentFolder();
 	private:
+		std::string FormatDirectory(std::string path);
+
 		std::string m_CurrentPath = "C:\\Users\\";
 
 		std::shared_ptr<std::vector<FastFileExplorer::File>> m_CachedFiles = std::make_shared<std::vector<FastFileExplorer::File>>();

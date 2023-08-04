@@ -25,7 +25,7 @@ namespace FastFileExplorer
             if (fs::is_directory(entry)) {
                 std::string folderName = entry.path().filename().string();
 
-                std::cout << folderName << std::endl;
+                //std::cout << folderName << std::endl;
 
                 m_CachedFolders->push_back(Folder(folderName, folderPath));
             }
@@ -54,7 +54,7 @@ namespace FastFileExplorer
             if (fs::is_regular_file(entry)) {
                 std::string fileName = entry.path().filename().string();
 
-                std::cout << fileName << std::endl;
+                //std::cout << fileName << std::endl;
 
                 m_CachedFiles->push_back(File(fileName, filePath));
             }
@@ -91,7 +91,7 @@ namespace FastFileExplorer
         namespace fs = std::filesystem;
         if(fs::is_directory(path))
         {
-            m_CurrentPath = path; 
+            m_CurrentPath = FormatDirectory(path); 
             m_FilesCached = false;
             m_FoldersCached = false;
         }
@@ -112,8 +112,48 @@ namespace FastFileExplorer
         for (int i = 0; i < m_CurrentPath.length() - folderName.length() - 1; i++)
             folderPath.push_back((m_CurrentPath)[i]);
 
-        std::cout << "PATH: " << folderPath << std::endl;
+        //std::cout << "PATH: " << folderPath << std::endl;
 
         return Folder(folderName, folderPath);
+    }
+    std::string FileManager::FormatDirectory(std::string path)
+    {
+        // simplify the input path by making sure there are no "..\" in the path string
+        std::string formattedPath;
+        bool upDir = false;
+        int slashNum = 0;
+        for (int i = 0; i < path.length(); i++)
+        {
+            if (path[i] == '\\')
+                slashNum++;
+
+            if (path[i] == '.' && path[i + 1] == '.' && path[i + 2] == '\\')
+            {
+                upDir = true;
+                continue;
+			}
+        }
+
+        if (!upDir)
+            return path;
+
+        int slashNum2 = 0;
+        for (int i = 0; i < path.length(); i++)
+        {
+            if (path[i] == '\\')
+                slashNum2++;
+
+            if (slashNum - 2 == slashNum2 )
+            {
+                break;
+            }
+
+            formattedPath.push_back(path[i]);
+        }
+
+        formattedPath.push_back('\\');
+
+        std::cout << "Formatted Path: " << formattedPath << std::endl;
+        return formattedPath;
     }
 }

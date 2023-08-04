@@ -4,6 +4,8 @@
 
 #include <fstream>
 
+#include "../Utils.h"
+
 namespace FastFileExplorer
 {
 	class File
@@ -32,7 +34,7 @@ namespace FastFileExplorer
 				return;
 			}
 
-			m_Size = std::to_string(fileSizeInBytes) + "b";
+			m_Size = FastFileExplorer::ParseSize(fileSizeInBytes);
 		}
 		std::string GetFileName()
 		{
